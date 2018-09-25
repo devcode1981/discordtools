@@ -1,0 +1,3 @@
+# deleteAll()
+
+Delete all keys.
