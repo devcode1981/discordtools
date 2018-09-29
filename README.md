@@ -14,7 +14,7 @@
 </div>
 
 ## About
-**Discord Tools** is a powerful, productive, efficient, and easy-to-use set of tools that helps you to interact with [Discord API](https://discordapp.com/developers/docs/intro).
+**Discord Tools** is a powerful, productive, efficient, and easy-to-use set of tools that allows you to interact with [Discord API](https://discordapp.com/developers/docs/intro).
 
 ### Installation
 
