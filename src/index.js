@@ -7,5 +7,6 @@ module.exports = {
 
   // Structures
   Client: require('./structures/Client'),
-  Database: require('./structures/Database')
+  Database: require('./structures/Database'),
+  Cli: require('./structures/Cli')
 };
