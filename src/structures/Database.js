@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const Utility = require('../util/Utility');
+const Utility = require('../util/Util');
 const Constants = require('../util/Constants');
 
 class Database {
