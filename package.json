@@ -21,6 +21,9 @@
     "email": "bolt8bp@gmail.com"
   },
   "runkitExampleFilename": "./docs/examples/addRole.js",
+  "bin": {
+    "discordtools": "./src/structures/Cli.js"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
