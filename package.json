@@ -37,5 +37,7 @@
     "discord.js": "^11.3.2",
     "snekfetch": "^4.0.4"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "inquirer": "^6.2.0"
+  }
 }
