@@ -1,4 +1,4 @@
-# Documentation
+# Docs
 
 ## Installation
 
@@ -34,4 +34,13 @@ $ npm i discordtools
 * unpinMessage
 
 ### Examples
+
+#### addRole\(\)
+
+```text
+const DiscordTools = require('discordtools');
+const tools = new DiscordTools.Client('Client Token');
+
+tools.addRole('Guild ID', 'Role ID', 'Member ID')
+```
 

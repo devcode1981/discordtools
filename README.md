@@ -2,7 +2,7 @@
 
 ### About
 
-Discord Tools is a powerful, productive, efficient, easy-to-use set of tools that allows you to interact with Discord API. It has mostly methods which are useful and easy-to-use. It is frequently updated and new features are added as soon as they are released in the Discord API.
+Discord Tools is a powerful, productive, efficient, easy-to-use set of tools that allows you to interact with Discord API. It has methods which are useful, easy-to-use, productive, so on. It is frequently updated and new features are added as soon as they are released in the Discord API.
 
 ### Why DiscordTools?
 
