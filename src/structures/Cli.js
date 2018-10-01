@@ -89,25 +89,15 @@ function validatePackage(name) {
     errors.push('Package name must be a string');
     return finalize(warnings, errors);
   }
-  if (!name.length) {
-    errors.push('Package name length must be greater than zero.');
-  }
-  if (name.match(/^\./)) {
-    errors.push('Package name cannot start with a period.');
-  }
-  if (name.match(/^_/)) {
-    errors.push('Package name cannot start with an underscore.');
-  }
-  if (name.trim() !== name) {
-    errors.push('Package name cannot contain leading or trailing spaces.');
-  }
-
+  if (!name.length) errors.push('Package name length must be greater than zero.');
+  if (name.match(/^\./)) errors.push('Package name cannot start with a period.');
+  if (name.match(/^_/)) errors.push('Package name cannot start with an underscore.');
+  if (name.trim() !== name) errors.push('Package name cannot contain leading or trailing spaces.');
   ['node_modules', 'favicon.ico'].forEach(function(blacklistedName) {
     if (name.toLowerCase() === blacklistedName) {
       errors.push(`${blacklistedName} is a blacklisted package name.`);
     }
   });
-
   var builtInModules = [
     'assert',
     'buffer',
@@ -143,20 +133,11 @@ function validatePackage(name) {
     'zlib'
   ];
   builtInModules.forEach(function(builtin) {
-    if (name.toLowerCase() === builtin) {
-      warnings.push(`${builtin} is a built-in package name.`);
-    }
+    if (name.toLowerCase() === builtin) warnings.push(`${builtin} is a built-in package name.`);
   });
-  if (name.length > 214) {
-    warnings.push('Package name cannot contain more than 214 characters');
-  }
-  if (name.toLowerCase() !== name) {
-    warnings.push('Package name cannot contain uppercase characters.');
-  }
-  if (/[~'!()*]/.test(name.split('/').slice(-1)[0])) {
-    warnings.push('Package name cannot contain special characters.');
-  }
-
+  if (name.length > 214) warnings.push('Package name cannot contain more than 214 characters');
+  if (name.toLowerCase() !== name) warnings.push('Package name cannot contain uppercase characters.');
+  if (/[~'!()*]/.test(name.split('/').slice(-1)[0])) warnings.push('Package name cannot contain special characters.');
   if (encodeURIComponent(name) !== name) {
     var nameMatch = name.match(scopedPackagePattern);
     if (nameMatch) {
