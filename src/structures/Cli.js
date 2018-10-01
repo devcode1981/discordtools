@@ -77,7 +77,6 @@ function _fetchScript(token, name) {
 function validatePackage(name) {
   var warnings = [];
   var errors = [];
-
   if (name === null) {
     errors.push('Package name cannot be null');
     return finalize(warnings, errors);
