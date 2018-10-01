@@ -154,7 +154,7 @@ function validatePackage(name) {
     warnings.push('Package name cannot contain uppercase characters.');
   }
   if (/[~'!()*]/.test(name.split('/').slice(-1)[0])) {
-    warnings.push('Package name cannot contain special characters ('~\'!()*')');
+    warnings.push('Package name cannot contain special characters.');
   }
 
   if (encodeURIComponent(name) !== name) {
