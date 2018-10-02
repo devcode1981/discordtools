@@ -2,14 +2,18 @@
 const fs = require('fs');
 const child_process = require('child_process');
 const inquirer = require('inquirer');
-const Util = require('../util/Util.js');
+// const Util = require('../util/Util.js');
 
-const scopedPackagePattern = new RegExp('^(?:@([^/]+?)[/])?([^/]+?)$');
 const questions = [
   {
     type: 'input',
     name: 'name',
-    message: 'Input a bot name...'
+    message: 'Input the bot name...'
+  },
+  {
+    type: 'name',
+    name: 'author',
+    message: 'Input the author name...'
   },
   {
     type: 'password',
@@ -17,27 +21,26 @@ const questions = [
     message: 'Input your Discord client token...'
   }
 ];
-
-inquirer.prompt(questions).then(answer => {
-  const validated = validatePackage(answer.name);
+inquirer.prompt(questions).then((answer) => {
+  var validated = validatePackage(answer.name);
   if (validated.errors !== undefined) {
     validated.errors.forEach((err) => {
       console.log(err);
     });
     return;
   }
-  const dir = answer.name;
+  var dir = answer.name;
+  var author = answer.author;
+  var token = answer.token;
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
     console.log('Creating new folder...');
-    fs.writeFile(`${dir}/package.json`, _fetchPackage(dir), (err) => {
-      if (err)
-        return console.log('Error while creating package.json.');
+    fs.writeFile(`${dir}/package.json`, _fetchPackage(dir, author), (err) => {
+      if (err) return console.error('Error while creating package.json.');
     });
     console.log('Creating index.js...');
-    fs.writeFile(`${dir}/index.js`, _fetchScript(answer.token, dir), (err) => {
-      if (err)
-        return console.log('Error while creating index.js.');
+    fs.writeFile(`${dir}/index.js`, _fetchScript(token, dir), (err) => {
+      if (err) return console.error('Error while creating index.js.');
     });
     console.log('Installing dependencies...');
     child_process.exec(`cd ${dir} && npm install`, (err, stdout, stderr) => {
@@ -46,14 +49,14 @@ inquirer.prompt(questions).then(answer => {
   }
 });
 
-function _fetchPackage(dir) {
+function _fetchPackage(dir, author) {
   return
   `{
 			"name": "${dir}",
 			"version": "0.0.1",
 			"description": "A Discord bot, built using discordtools.",
 			"main": "index.js",
-			"author": "discordtools",
+			"author": "${author}",
 			"dependencies": {
 				"discord.js": "^11.4.2"
 			}
@@ -61,7 +64,7 @@ function _fetchPackage(dir) {
 }
 
 function _fetchScript(token, name) {
-  const tokenValue = token.length > 0 ? token : 'client-token';
+  var tokenValue = token.length > 0 ? token : 'client-token';
   return 
   `// ${name}, built using discordtools.
 	const Discord = require('discord.js');
@@ -93,10 +96,9 @@ function validatePackage(name) {
   if (name.match(/^\./)) errors.push('Package name cannot start with a period.');
   if (name.match(/^_/)) errors.push('Package name cannot start with an underscore.');
   if (name.trim() !== name) errors.push('Package name cannot contain leading or trailing spaces.');
-  ['node_modules', 'favicon.ico'].forEach(function(blacklistedName) {
-    if (name.toLowerCase() === blacklistedName) {
-      errors.push(`${blacklistedName} is a blacklisted package name.`);
-    }
+  var blackListedModulesName = ['node_modules', 'favicon.ico'];
+  blackListedModulesName.forEach(function(blacklistedName) {
+    if (name.toLowerCase() === blacklistedName) errors.push(`${blacklistedName} is a blacklisted package name.`);
   });
   var builtInModules = [
     'assert',
@@ -143,12 +145,7 @@ function validatePackage(name) {
     if (nameMatch) {
       var user = nameMatch[1];
       var pkg = nameMatch[2];
-      if (
-        encodeURIComponent(user) === user &&
-        encodeURIComponent(pkg) === pkg
-      ) {
-        return finalize(warnings, errors);
-      }
+      if (encodeURIComponent(user) === user && encodeURIComponent(pkg) === pkg) return finalize(warnings, errors);
     }
     errors.push('Package name can only contain URL-friendly characters.');
   }
