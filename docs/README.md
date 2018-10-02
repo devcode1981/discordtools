@@ -25,3 +25,6 @@ tools.createChannel('Guild ID', 'channel-name', 'text', 'Channel Topic', false);
 
 * 1,462 weekly downloads
 * 6 stars
+
+
+
