@@ -1,7 +1,8 @@
-# Describe the changes in Pull Request
+# PULL\_REQUEST\_TEMPLATE
 
-#### Format:
+## Format:
 
 * Title, descriptions are recommended.
 * Describe the changes, you have done.
 * Follow guidelines.
+
