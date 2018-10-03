@@ -1,8 +1,8 @@
 const APIRequest = require('./APIRequest');
 const APIMethods = require('./APIMethods');
 const UAManager = require('./UAManager');
-const SequentialAPIHandler = require('./Handler/Sequential');
-const BurstAPIHandler = require('./Handler/Burst');
+const SequentialAPIHandler = require('./handlers/Sequential');
+const BurstAPIHandler = require('./handlers/Burst');
 const Constants = require('../util/Constants');
 
 class APIManager {
