@@ -2,7 +2,6 @@
 const fs = require('fs');
 const child_process = require('child_process');
 const inquirer = require('inquirer');
-// const Util = require('../util/Util.js');
 
 const questions = [
   {
@@ -22,26 +21,30 @@ const questions = [
   }
 ];
 inquirer.prompt(questions).then((answer) => {
-  var validated = validatePackage(answer.name);
+  var validated = _validatePackage(answer.name);
   if (validated.errors !== undefined) {
     validated.errors.forEach((err) => {
       console.log(err);
     });
     return;
   }
+
   var dir = answer.name;
   var author = answer.author;
   var token = answer.token;
   if (!fs.existsSync(dir)) {
+
     fs.mkdirSync(dir);
     console.log('Creating new folder...');
     fs.writeFile(`${dir}/package.json`, _fetchPackage(dir, author), (err) => {
       if (err) return console.error('Error while creating package.json.');
     });
+
     console.log('Creating index.js...');
     fs.writeFile(`${dir}/index.js`, _fetchScript(token, dir), (err) => {
       if (err) return console.error('Error while creating index.js.');
     });
+
     console.log('Installing dependencies...');
     child_process.exec(`cd ${dir} && npm install`, (err, stdout, stderr) => {
       console.log('Finalizing... Done!');
@@ -77,29 +80,35 @@ function _fetchScript(token, name) {
 	client.login('${tokenValue}');`;
 }
 
-function validatePackage(name) {
+function _validatePackage(name) {
   var warnings = [];
   var errors = [];
+
   if (name === null) {
     errors.push('Package name cannot be null');
-    return finalize(warnings, errors);
+    return _finalize(warnings, errors);
   }
   if (name === undefined) {
     errors.push('Package name cannot be undefined');
-    return finalize(warnings, errors);
+    return _finalize(warnings, errors);
   }
   if (typeof name !== 'string') {
     errors.push('Package name must be a string');
-    return finalize(warnings, errors);
+    return _finalize(warnings, errors);
   }
   if (!name.length) errors.push('Package name length must be greater than zero.');
   if (name.match(/^\./)) errors.push('Package name cannot start with a period.');
   if (name.match(/^_/)) errors.push('Package name cannot start with an underscore.');
   if (name.trim() !== name) errors.push('Package name cannot contain leading or trailing spaces.');
-  var blackListedModulesName = ['node_modules', 'favicon.ico'];
-  blackListedModulesName.forEach(function(blacklistedName) {
+
+  var blackListedModules = [
+    'node_modules',
+    'favicon.ico'
+  ];
+  blackListedModules.forEach(function(blacklistedName) {
     if (name.toLowerCase() === blacklistedName) errors.push(`${blacklistedName} is a blacklisted package name.`);
   });
+
   var builtInModules = [
     'assert',
     'buffer',
@@ -134,9 +143,10 @@ function validatePackage(name) {
     'vm',
     'zlib'
   ];
-  builtInModules.forEach(function(builtin) {
-    if (name.toLowerCase() === builtin) warnings.push(`${builtin} is a built-in package name.`);
+  builtInModules.forEach(function(module) {
+    if (name.toLowerCase() === module) warnings.push(`${module} is a built-in package name.`);
   });
+
   if (name.length > 214) warnings.push('Package name cannot contain more than 214 characters');
   if (name.toLowerCase() !== name) warnings.push('Package name cannot contain uppercase characters.');
   if (/[~'!()*]/.test(name.split('/').slice(-1)[0])) warnings.push('Package name cannot contain special characters.');
@@ -145,14 +155,14 @@ function validatePackage(name) {
     if (nameMatch) {
       var user = nameMatch[1];
       var pkg = nameMatch[2];
-      if (encodeURIComponent(user) === user && encodeURIComponent(pkg) === pkg) return finalize(warnings, errors);
+      if (encodeURIComponent(user) === user && encodeURIComponent(pkg) === pkg) return _finalize(warnings, errors);
     }
     errors.push('Package name can only contain URL-friendly characters.');
   }
-  return finalize(warnings, errors);
+  return _finalize(warnings, errors);
 }
 
-function finalize(warnings, errors) {
+function _finalize(warnings, errors) {
   var result = {
     validForNewPackages: errors.length === 0 && warnings.length === 0,
     validForOldPackages: errors.length === 0,

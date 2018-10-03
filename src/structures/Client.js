@@ -14,16 +14,12 @@ class Client {
      * @type {ClientOptions} Client options.
      */
     this.options = Util.combineDefault(Constants.DefaultOptions, options);
-
     this.token = token;
-    if (typeof this.token !== 'string')
-      throw new Error(Constants.Errors.INVALID_TOKEN);
-    if (typeof this.options.apiRequestMethod !== 'string')
-      throw new TypeError(Constants.Errors.INVALID_CLIENT_OPTION);
-    if (typeof this.options.userAccount !== 'boolean')
-      throw new TypeError(Constants.Errors.INVALID_CLIENT_OPTION);
-    if (typeof this.options.restTimeOffset !== 'number')
-      throw new TypeError(Constants.Errors.INVALID_CLIENT_OPTION);
+    
+    if (typeof this.token !== 'string') throw new Error(Constants.Errors.INVALID_TOKEN);
+    if (typeof this.options.apiRequestMethod !== 'string') throw new TypeError(Constants.Errors.INVALID_CLIENT_OPTION);
+    if (typeof this.options.userAccount !== 'boolean') throw new TypeError(Constants.Errors.INVALID_CLIENT_OPTION);
+    if (typeof this.options.restTimeOffset !== 'number') throw new TypeError(Constants.Errors.INVALID_CLIENT_OPTION);
 
     /**
      * API manager.
