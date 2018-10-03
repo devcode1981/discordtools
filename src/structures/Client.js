@@ -111,18 +111,14 @@ class Client {
     const _data = {};
     if (data.name) _data.name = data.name;
     if (data.region) _data.region = data.region;
-    if (typeof data.verificationLevel !== 'undefined')
-      _data.verification_level = Number(data.verificationLevel);
-    if (typeof data.afkChannel !== 'undefined')
-      _data.afk_channel_id = data.afkChannel;
-    if (typeof data.systemChannel !== 'undefined')
-      _data.system_channel_id = data.systemChannel;
+    if (typeof data.verificationLevel !== 'undefined') _data.verification_level = Number(data.verificationLevel);
+    if (typeof data.afkChannel !== 'undefined') _data.afk_channel_id = data.afkChannel;
+    if (typeof data.systemChannel !== 'undefined') _data.system_channel_id = data.systemChannel;
     if (data.afkTimeout) _data.afk_timeout = Number(data.afkTimeout);
     if (typeof data.icon !== 'undefined') _data.icon = data.icon;
     if (data.owner) _data.owner_id = data.owner;
     if (typeof data.splash !== 'undefined') _data.splash = data.splash;
-    if (typeof data.explicitContentFilter !== 'undefined')
-      _data.explicit_content_filter = Number(data.explicitContentFilter);
+    if (typeof data.explicitContentFilter !== 'undefined') _data.explicit_content_filter = Number(data.explicitContentFilter);
     this.manager.methods.EditGuild(guild_id, _data);
   }
 
@@ -141,11 +137,9 @@ class Client {
    *   });
    */
   fetchMember(guild_id, member_id) {
-    if (typeof guild_id !== 'string' || typeof member_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof guild_id !== 'string' || typeof member_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return new Promise((resolve, reject) => {
-      this.manager.methods
-        .fetchGuildMember(guild_id, member_id)
+      this.manager.methods.fetchGuildMember(guild_id, member_id)
         .then(response => {
           return response;
         })
@@ -169,8 +163,7 @@ class Client {
      });
    */
   editMember(guild_id, member_id, data) {
-    if (typeof guild_id !== 'string' || typeof member_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof guild_id !== 'string' || typeof member_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return this.manager.methods.editGuildMember(guild_id, member_id, data);
   }
 
@@ -187,8 +180,7 @@ class Client {
    * kick('Guild ID', 'Member ID', 'Kick reason.');
    */
   kick(guild_id, member_id, reason) {
-    if (typeof guild_id !== 'string' || typeof member_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof guild_id !== 'string' || typeof member_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return this.manager.methods.kickGuildMember(guild_id, member_id, reason);
   }
 
@@ -210,8 +202,7 @@ class Client {
    * });
    */
   ban(guild_id, member_id, data = {}) {
-    if (typeof guild_id !== 'string' || typeof member_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof guild_id !== 'string' || typeof member_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     if (typeof data === 'number') {
       data = {
         reason: null,
@@ -240,8 +231,7 @@ class Client {
    * unban('Guild ID', 'User ID', 'Unban reason.');
    */
   unban(guild_id, user_id, reason) {
-    if (typeof guild_id !== 'string' || typeof user_id !== 'string')
-      throw new Error(ConstantSourceNode.Errors.MISSING_PARAM);
+    if (typeof guild_id !== 'string' || typeof user_id !== 'string') throw new Error(ConstantSourceNode.Errors.MISSING_PARAM);
     return this.manager.methods.unbanUser(guild_id, user_id, reason);
   }
 
@@ -254,8 +244,7 @@ class Client {
    * deleteMessage('Channel ID', 'Message ID');
    */
   deleteMessage(channel_id, message_id) {
-    if (typeof channel_id !== 'string' || typeof message_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof channel_id !== 'string' || typeof message_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return this.manager.methods.deleteChannelMessage(channel_id, message_id);
   }
 
@@ -265,8 +254,7 @@ class Client {
    * @param {string} message_id Message ID.
    */
   pinMessage(channel_id, message_id) {
-    if (typeof channel_id !== 'string' || typeof message_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof channel_id !== 'string' || typeof message_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return this.manager.methods.pinMessage(channel_id, message_id);
   }
 
@@ -276,8 +264,7 @@ class Client {
    * @param {string} message_id Message ID.
    */
   unpinMessage(channel_id, message_id) {
-    if (typeof channel_id !== 'string' || typeof message_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof channel_id !== 'string' || typeof message_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return this.manager.methods.unpinMessage(channel_id, message_id);
   }
 
@@ -290,10 +277,8 @@ class Client {
    * bulkDelete('Channel ID', ['Message ID', 'Message ID', 'Message ID', 'Message ID', 'Message ID']);
    */
   bulkDelete(channel_id, message_ids) {
-    if (typeof channel_id !== 'string' || !Array.isArray(message_ids))
-      throw new Error(Constants.Errors.MISSING_PARAM);
-    if (message_ids < 2 || message_ids > 100)
-      throw new RangeError('Messages limit: 2-100');
+    if (typeof channel_id !== 'string' || !Array.isArray(message_ids)) throw new Error(Constants.Errors.MISSING_PARAM);
+    if (message_ids < 2 || message_ids > 100) throw new RangeError('Messages limit: 2-100');
     return this.manager.methods.bulkDeleteMessages(channel_id, message_ids);
   }
 
@@ -307,17 +292,8 @@ class Client {
    * addRole('Guild ID', 'Member ID', 'Role ID');
    */
   addRole(guild_id, member_id, role_id) {
-    if (
-      typeof guild_id !== 'string' ||
-      typeof member_id !== 'string' ||
-      typeof role_id !== 'string'
-    )
-      throw new Error(Constants.Errors.MISSING_PARAM);
-    return this.manager.methods.addGuildMemberRole(
-      guild_id,
-      member_id,
-      role_id
-    );
+    if (typeof guild_id !== 'string' || typeof member_id !== 'string' || typeof role_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
+    return this.manager.methods.addGuildMemberRole(guild_id, member_id, role_id);
   }
 
   /**
@@ -330,12 +306,7 @@ class Client {
    * removeRole('Guild ID', 'Member ID', 'Role ID');
    */
   removeRole(guild_id, member_id, role_id) {
-    if (
-      typeof guild_id !== 'string' ||
-      typeof member_id !== 'string' ||
-      typeof role_id !== 'string'
-    )
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof guild_id !== 'string' || typeof member_id !== 'string' || typeof role_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     this.manager.methods.removeGuildMemberRole(guild_id, member_id, role_id);
   }
 
@@ -355,8 +326,7 @@ class Client {
    * });
    */
   createRole(guild_id, data = {}) {
-    if (typeof guild_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof guild_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return this.manager.methods.createGuildRole(guild_id, data);
   }
 
@@ -369,8 +339,7 @@ class Client {
    * deleteRole('Guild ID', 'Role ID');
    */
   deleteRole(guild_id, role_id) {
-    if (typeof guild_id !== 'string' || typeof role_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof guild_id !== 'string' || typeof role_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return this.manager.methods.deleteGuildRole(guild_id, role_id);
   }
 
@@ -387,8 +356,7 @@ class Client {
    * });
    */
   editRole(guild_id, role_id, data) {
-    if (typeof guild_id !== 'string' || typeof role_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof guild_id !== 'string' || typeof role_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return this.manager.methods.editGuildRole(guild_id, role_id, data);
   }
 
@@ -439,15 +407,8 @@ class Client {
    * createChannel('Guild ID', 'channel-name', 'voice', 'Channel Topic', false);
    */
   createChannel(guild_id, channel_name, channel_type, channel_topic, nsfw) {
-    if (typeof guild_id !== 'string' || typeof channel_name !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
-    this.manager.methods.createGuildChannel(
-      guild_id,
-      channel_name,
-      channel_type,
-      channel_topic,
-      nsfw
-    );
+    if (typeof guild_id !== 'string' || typeof channel_name !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
+    this.manager.methods.createGuildChannel(guild_id, channel_name, channel_type, channel_topic, nsfw);
   }
 
   /**
@@ -458,8 +419,7 @@ class Client {
    * deleteChannel('Channel ID');
    */
   deleteChannel(channel_id) {
-    if (typeof channel_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof channel_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     this.manager.methods.deleteGuildChannel(channel_id);
   }
 
@@ -476,8 +436,7 @@ class Client {
    * });
    */
   editChannel(channel_id, data) {
-    if (typeof channel_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof channel_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return this.manager.methods.editGuildChannel(channel_id, data);
   }
 
@@ -494,8 +453,7 @@ class Client {
    * createEmoji('Guild ID', './path/to/emoji.png', 'Emoji name');
    */
   createEmoji(guild_id, image, name) {
-    if (typeof guild_id !== 'string' || typeof name !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof guild_id !== 'string' || typeof name !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     if (typeof image === 'string' && image.startsWith('data:')) {
       return this.manager.methods.createGuildEmoji(guild_id, image, name);
     } else {
@@ -514,8 +472,7 @@ class Client {
    * deleteEmoji('Guild ID', 'Emoji ID');
    */
   deleteEmoji(guild_id, emoji_id) {
-    if (typeof guild_id !== 'string' || typeof emoji_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof guild_id !== 'string' || typeof emoji_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return this.manager.methods.deleteGuildEmoji(guild_id, emoji_id);
   }
 
@@ -529,8 +486,7 @@ class Client {
    * editEmoji('Guild ID', 'Emoji ID', {});
    */
   editEmoji(guild_id, emoji_id, data) {
-    if (typeof guild_id !== 'string' || typeof emoji_id !== 'string')
-      throw new Error(Constants.Errors.MISSING_PARAM);
+    if (typeof guild_id !== 'string' || typeof emoji_id !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return this.manager.methods.editGuildEmoji(guild_id, emoji_id, data);
   }
 

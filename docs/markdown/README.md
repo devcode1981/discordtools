@@ -14,7 +14,7 @@ Discord Tools is a powerful, productive, efficient, easy-to-use set of tools tha
 
 ### Example
 
-```text
+```js
 const DiscordTools = require('discordtools');
 const tools = new DiscordTools.Client('Client Token');
 
@@ -25,4 +25,3 @@ tools.createChannel('Guild ID', 'channel-name', 'text', 'Channel Topic', false);
 
 * 1,462 weekly downloads
 * 6 stars
-

@@ -9,13 +9,14 @@ class Database {
    * @param {DatabaseOptions} [options] Database options.
    */
   constructor(options = {}) {
+
     /**
      * Database options.
      * @type {DatabaseOptions} Database options.
      */
     this.options = Utility.combineDefault(Constants.DatabaseOptions, options);
 
-    let dbname = 'db.json';
+    const dbname = 'dtdb.json';
     if (!fs.existsSync(path.resolve(dbname))) fs.writeFileSync(dbname, '{}');
     this.filePath = path.resolve(dbname);
     this.db = require(this.filePath);
@@ -43,7 +44,7 @@ class Database {
    * @param {string} [method]
    */
   has(key, method = 'string') {
-    if ((typeof key === 'string' && method === 'array') || (typeof key === 'Array' || method === 'string')) throw new Error('Array method is only available using array.')
+    if ((typeof key === 'string' && method === 'array') || (typeof key === 'Array' || method === 'string')) throw new Error(Constants.Errors.INVALID_METHOD);
     switch (method) {
       case 'array':
         {
@@ -69,7 +70,7 @@ class Database {
         }
       default:
         {
-          throw new Error('Unknown method was provided.');
+          throw new Error(Constants.Errors.UNKNOWN_METHOD);
         }
     }
   }
@@ -164,7 +165,7 @@ class Database {
   }
 
   /**
-   * @param {Object} data
+   * @param {object} data
    */
   _clone(data) {
     if (data === undefined) return undefined;

@@ -1,12 +1,17 @@
 exports.Package_JSON = require('../../package.json');
 
 exports.Errors = {
-    MISSING_PARAM: 'Missing required parameter(s).',
-    EMPTY_TOKEN: 'Request was rejected due to "token was inaccessible to the client."',
+    // Client Errors
+    MISSING_PARAM: 'Missing required parameter.',
+    EMPTY_TOKEN: 'Request is rejected due to "token was inaccessible to the client."',
     INVALID_TOKEN: 'Invalid token was provided.',
-    UNKNOWN_PERMISSION: 'An unknown permission string or number.',
+    UNKNOWN_PERMISSION: 'Unknown permission string or number is supplied.',
     INVALID_CLIENT_OPTION: 'Invalid client option.',
-    UNKNOWN_RATE_LIMIT_METHOD: 'Unknown rate limit method.'
+    UNKNOWN_RATE_LIMIT_METHOD: 'Unknown rate limit method.',
+
+    // Database Errors
+    UNKNOWN_METHOD: 'Unknown method is supplied',
+    INVALID_METHOD: 'Invalid method is supplied.'
 };
 
 /**
@@ -38,10 +43,10 @@ exports.DefaultOptions = {
 
 /**
  * @typedef {Object} DatabaseOptions Database options.
- * @property {boolean} [notyetdecided=false]
+ * @property {boolean} [name='dtdb.json']
  */
 exports.DatabaseOptions = {
-    notyetdecided: false,
+    name: 'dtdb.json',
 };
 
 exports.ChannelTypes = {

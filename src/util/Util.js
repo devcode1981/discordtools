@@ -146,6 +146,14 @@ class Util {
         if (data instanceof Buffer) return `data:image/jpg;base64,${data.toString('base64')}`;
         return data;
     }
+
+    /**
+     * @param {object} data
+     */
+    static clone(data) {
+        if (data === undefined) return undefined;
+        return JSON.parse(JSON.stringify(data));
+    }
 }
 
 module.exports = Util;

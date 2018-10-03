@@ -16,9 +16,7 @@ class APIManager {
   }
 
   destroy() {
-    for (const handler of Object.values(this.handlers)) {
-      if (handler.destroy) handler.destroy();
-    }
+    for (const handler of Object.values(this.handlers)) if (handler.destroy) handler.destroy();
   }
 
   push(handler, ApiRequest) {

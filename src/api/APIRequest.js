@@ -40,8 +40,7 @@ class APIRequest {
         if (this.reason) request.set('X-Audit-Log-Reason', encodeURIComponent(this.reason));
         if (!this.manager.client.browser) request.set('User-Agent', this.manager.userAgent.userAgent);
         if (this.files) {
-            for (const file of this.files)
-                if (file && file.file) request.attach(file.name, file.file, file.name);
+            for (const file of this.files) if (file && file.file) request.attach(file.name, file.file, file.name);
             if (typeof this.data !== 'undefined') request.attach('payload_json', JSON.stringify(this.data));
         } else if (this.data) {
             request.send(this.data);

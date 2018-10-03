@@ -5,14 +5,17 @@
   "main": "./src/index.js",
   "scripts": {
     "lint": "eslint src",
-    "start": "node src"
+    "start": "node src",
+    "cli": "src/structures/Cli.js"
   },
   "keywords": [
     "discord",
+    "discordapp",
     "bot",
     "api",
     "node",
     "database",
+    "cli",
     "discord.js",
     "wrapper"
   ],
