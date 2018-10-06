@@ -11,7 +11,15 @@ exports.Errors = {
 
     // Database Errors
     UNKNOWN_METHOD: 'Unknown method is supplied',
-    INVALID_METHOD: 'Invalid method is supplied.'
+    INVALID_METHOD: 'Invalid method is supplied.',
+
+    /**
+     * @param {string} missing
+     * @param {string} property
+     */
+    CUSTOM: (missing, property) => {
+        return `${missing} must be a ${property}.`;
+    }
 };
 
 /**

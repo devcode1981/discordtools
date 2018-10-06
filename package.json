@@ -19,10 +19,7 @@
     "discord.js",
     "wrapper"
   ],
-  "author": {
-    "name": "boltx",
-    "email": "bolt8bp@gmail.com"
-  },
+  "author": "boltx <bolt8bp@gmail.com>",
   "runkitExampleFilename": "./docs/examples/addRole.js",
   "bin": {
     "discordtools": "./src/structures/Cli.js"
@@ -30,12 +27,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/boltxyz/DiscordTools.git"
+    "url": "git+https://github.com/boltxyz/discordtools.git"
   },
   "bugs": {
-    "url": "https://github.com/boltxyz/DiscordTools/issues"
+    "url": "https://github.com/boltxyz/discordtools/issues"
   },
-  "homepage": "https://github.com/boltxyz/DiscordTools/#readme",
+  "homepage": "https://github.com/boltxyz/discordtools/#readme",
   "dependencies": {
     "discord.js": "^11.3.2",
     "inquirer": "^6.2.0",

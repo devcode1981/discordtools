@@ -27,7 +27,7 @@ class Database {
    * @param {string} key
    */
   fetch(key) {
-    if (typeof key !== 'string') throw new Error('Key must be a string.');
+    if (typeof key !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     return this._clone(this.db[key]);
   }
 
@@ -81,7 +81,7 @@ class Database {
    * @param {string|number|boolean|object} value
    */
   set(key, value) {
-    if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean' && typeof value !== 'object') throw new Error('Value must be either a string, boolean, number, or object.');
+    if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean' && typeof value !== 'object') throw new Error(Constants.Errors.MISSING_PARAM);
     this.db[key] = this._clone(value);
     this.save();
   }
@@ -92,7 +92,7 @@ class Database {
    * @param {number} data
    */
   add(key, data) {
-    if (typeof key !== 'string' || typeof this.db[key] !== 'number' || typeof data !== 'number') throw new Error('Key and data must be a number.');
+    if (typeof key !== 'string' || typeof this.db[key] !== 'number' || typeof data !== 'number') throw new Error(Constants.Errors.MISSING_PARAM);
     options = {};
     let fetched = this._clone(this.db[key] + data);
     this.db[key] = this._clone(fetched);
@@ -105,7 +105,7 @@ class Database {
    * @param {number} data
    */
   subtract(key, data) {
-    if (typeof key !== 'string' || typeof this.db[key] !== 'number' || typeof data !== 'number') throw new Error('Key and data must be a number.');
+    if (typeof key !== 'string' || typeof this.db[key] !== 'number' || typeof data !== 'number') throw new Error(Constants.Errors.MISSING_PARAM);
     options = {};
     let fetched = this._clone(this.db[key] - data);
     this.db[key] = this._clone(fetched);
@@ -118,7 +118,7 @@ class Database {
    * @param {string|boolean|object|number} value
    */
   edit(key, value) {
-    if (typeof key !== 'string' || typeof value !== 'string' || typeof value !== 'boolean' || typeof value !== 'object' || typeof value !== 'number') throw new Error('Value must be either a string, boolean, number, or object.');
+    if (typeof key !== 'string' || typeof value !== 'string' || typeof value !== 'boolean' || typeof value !== 'object' || typeof value !== 'number') throw new Error(Constants.Errors.MISSING_PARAM);
     this.db[key] = this._clone(value);
     this.save();
   }
@@ -128,7 +128,7 @@ class Database {
    * @param {string} key
    */
   delete(key) {
-    if (typeof key !== 'string') throw new Error('Key must be a string.');
+    if (typeof key !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     delete this.db[key];
     this.save();
   }
@@ -150,7 +150,7 @@ class Database {
    * @param {string} data
    */
   startsWith(key, data) {
-    if (typeof key !== 'string' || typeof data !== 'string') throw new Error('Key and data must be a string.');
+    if (typeof key !== 'string' || typeof data !== 'string') throw new Error(Constants.Errors.MISSING_PARAM);
     if (data === undefined) return undefined;
     if (this.db[key].startsWith(data)) return console.log(true);
     else console.log(false);
