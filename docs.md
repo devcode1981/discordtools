@@ -16,7 +16,9 @@ Install discordtools globally if you're using discordtools CLI.
 $ npm i -g discordtools
 ```
 
-### Examples
+Run `discordtools` inside the terminal to run discordtools CLI.
+
+### Methods
 
 #### addRole
 
