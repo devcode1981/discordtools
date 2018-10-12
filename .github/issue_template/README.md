@@ -1,4 +1,0 @@
-# ISSUE\_TEMPLATE
-
-
-
