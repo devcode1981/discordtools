@@ -4,7 +4,6 @@ const Utility = require('../util/Util');
 const Constants = require('../util/Constants');
 
 class Database {
-
   /**
    * @param {DatabaseOptions} [options] Database options.
    */

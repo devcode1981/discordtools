@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
+const APIManager = require('../api/APIManager');
 const Constants = require('../util/Constants');
 const Util = require('../util/Util');
-const APIManager = require('../api/APIManager');
 class Client {
+
   /**
    * @param {string} token Client token.
    * @param {ClientOptions} [options] Client options.
