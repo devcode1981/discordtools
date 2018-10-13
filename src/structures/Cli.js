@@ -12,7 +12,7 @@ commander
   .option("-a, --author, Add the author.")
   .parse(process.argv);
 
-if (!commander.default || !commander.author) {
+if (!commander.default && !commander.author) {
   const ques = [
     {
       type: "input",
@@ -83,7 +83,6 @@ if (commander.default) {
 
     console.log("Installing dependencies...");
     child_process.exec(`cd ${dir} && npm install`, (err, stdout, stderr) => {
-      if (err) throw err;
       console.log("Finalizing... Done!");
     });
   }
@@ -122,14 +121,13 @@ if (commander.author) {
 
       console.log("Installing dependencies...");
       child_process.exec(`cd ${dir} && npm install`, (err, stdout, stderr) => {
-        if (err) throw err;
         console.log("Finalizing... Done!");
       });
     }
   });
 }
 
-function _fetchPackage(dir, author) {
+function _fetchPackage(dir = 'discordtools-bot', author = 'discordtools') {
   return;
   `{
     "name": "${dir}",
