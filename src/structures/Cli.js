@@ -123,7 +123,7 @@ function _finalize(warnings, errors) {
   return result;
 }
 
-commander.version(Constants.Package_JSON.version)
+commander.version(`${Constants.Package_JSON.version}`, '-v, --version')
   .option('-d, --default, Return default options.')
   .option('-a, --author, Add the author.')
   .parse(process.argv);
