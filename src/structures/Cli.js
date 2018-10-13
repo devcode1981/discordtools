@@ -6,6 +6,129 @@ const fs = require("fs");
 const inquirer = require("inquirer");
 const Constants = require("../util/Constants");
 
+commander
+  .version(`${Constants.Package_JSON.version}`, "-v, --version")
+  .option("-d, --default, Return default options.")
+  .option("-a, --author, Add the author.")
+  .parse(process.argv);
+
+if (!commander.default || !commander.author) {
+  const ques = [
+    {
+      type: "input",
+      name: "name",
+      message: "Input the bot name..."
+    },
+    {
+      type: "input",
+      name: "author",
+      message: "Input the author name..."
+    },
+    {
+      type: "password",
+      name: "token",
+      message: "Input your Discord client token..."
+    }
+  ];
+
+  inquirer.prompt(ques).then(answer => {
+    var validated = _validatePackage(answer.name);
+
+    if (validated.errors !== undefined) {
+      validated.errors.forEach(err => {
+        console.log(err);
+      });
+      return;
+    }
+
+    dir = answer.name;
+    token = answer.token;
+    author = answer.author;
+
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+      console.log("Creating new folder...");
+      fs.writeFile(`${dir}/package.json`, _fetchPackage(dir, author), err => {
+        if (err) return console.error("Error while creating package.json.");
+      });
+
+      console.log("Creating index.js...");
+      fs.writeFile(`${dir}/index.js`, _fetchScript(token, dir), err => {
+        if (err) return console.error("Error while creating index.js.");
+      });
+
+      console.log("Installing dependencies...");
+      child_process.exec(`cd ${dir} && npm install`, (err, stdout, stderr) => {
+        console.log("Finalizing... Done!");
+      });
+    }
+  });
+}
+
+if (commander.default) {
+  dir = "discordtools-bot";
+  token = "client-token";
+  author = "discordtools";
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+    console.log("Creating new folder...");
+    fs.writeFile(`${dir}/package.json`, _fetchPackage(dir, author), err => {
+      if (err) return console.error("Error while creating package.json.");
+    });
+
+    console.log("Creating index.js...");
+    fs.writeFile(`${dir}/index.js`, _fetchScript(token, dir), err => {
+      if (err) return console.error("Error while creating index.js.");
+    });
+
+    console.log("Installing dependencies...");
+    child_process.exec(`cd ${dir} && npm install`, (err, stdout, stderr) => {
+      if (err) throw err;
+      console.log("Finalizing... Done!");
+    });
+  }
+}
+
+if (commander.author) {
+  const questions = [
+    {
+      type: "name",
+      name: "author",
+      message: "Input the author name..."
+    }
+  ];
+  dir = "discordtools-bot";
+  token = "client-token";
+  inquirer.prompt(questions).then(answer => {
+    var validated = _validatePackage(dir);
+    if (validated.errors !== undefined) {
+      validated.errors.forEach(err => {
+        console.log(err);
+      });
+      return;
+    }
+    author = answer.author;
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+      console.log("Creating new folder...");
+      fs.writeFile(`${dir}/package.json`, _fetchPackage(dir, author), err => {
+        if (err) return console.error("Error while creating package.json.");
+      });
+
+      console.log("Creating index.js...");
+      fs.writeFile(`${dir}/index.js`, _fetchScript(token, dir), err => {
+        if (err) return console.error("Error while creating index.js.");
+      });
+
+      console.log("Installing dependencies...");
+      child_process.exec(`cd ${dir} && npm install`, (err, stdout, stderr) => {
+        if (err) throw err;
+        console.log("Finalizing... Done!");
+      });
+    }
+  });
+}
+
 function _fetchPackage(dir, author) {
   return;
   `{
@@ -131,127 +254,4 @@ function _finalize(warnings, errors) {
   if (!result.warnings.length) delete result.warnings;
   if (!result.errors.length) delete result.errors;
   return result;
-}
-
-commander
-  .version(`${Constants.Package_JSON.version}`, "-v, --version")
-  .option("-d, --default, Return default options.")
-  .option("-a, --author, Add the author.")
-  .parse(process.argv);
-
-if (!commander.default || !commander.author) {
-  const ques = [
-    {
-      type: "input",
-      name: "name",
-      message: "Input the bot name..."
-    },
-    {
-      type: "input",
-      name: "author",
-      message: "Input the author name..."
-    },
-    {
-      type: "password",
-      name: "token",
-      message: "Input your Discord client token..."
-    }
-  ];
-
-  inquirer.prompt(ques).then(answer => {
-    var validated = _validatePackage(answer.name);
-
-    if (validated.errors !== undefined) {
-      validated.errors.forEach(err => {
-        console.log(err);
-      });
-      return;
-    }
-
-    dir = answer.name;
-    token = answer.token;
-    author = answer.author;
-
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-      console.log("Creating new folder...");
-      fs.writeFile(`${dir}/package.json`, _fetchPackage(dir, author), err => {
-        if (err) return console.error("Error while creating package.json.");
-      });
-
-      console.log("Creating index.js...");
-      fs.writeFile(`${dir}/index.js`, _fetchScript(token, dir), err => {
-        if (err) return console.error("Error while creating index.js.");
-      });
-
-      console.log("Installing dependencies...");
-      child_process.exec(`cd ${dir} && npm install`, (err, stdout, stderr) => {
-        console.log("Finalizing... Done!");
-      });
-    }
-  });
-}
-
-if (commander.default) {
-  dir = "discordtools-bot";
-  token = "client-token";
-  author = "discordtools";
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
-    console.log("Creating new folder...");
-    fs.writeFile(`${dir}/package.json`, _fetchPackage(dir, author), err => {
-      if (err) return console.error("Error while creating package.json.");
-    });
-
-    console.log("Creating index.js...");
-    fs.writeFile(`${dir}/index.js`, _fetchScript(token, dir), err => {
-      if (err) return console.error("Error while creating index.js.");
-    });
-
-    console.log("Installing dependencies...");
-    child_process.exec(`cd ${dir} && npm install`, (err, stdout, stderr) => {
-      if (err) throw err;
-      console.log("Finalizing... Done!");
-    });
-  }
-}
-
-if (commander.author) {
-  const questions = [
-    {
-      type: "name",
-      name: "author",
-      message: "Input the author name..."
-    }
-  ];
-  dir = "discordtools-bot";
-  token = "client-token";
-  inquirer.prompt(questions).then(answer => {
-    var validated = _validatePackage(dir);
-    if (validated.errors !== undefined) {
-      validated.errors.forEach(err => {
-        console.log(err);
-      });
-      return;
-    }
-    author = answer.author;
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-      console.log("Creating new folder...");
-      fs.writeFile(`${dir}/package.json`, _fetchPackage(dir, author), err => {
-        if (err) return console.error("Error while creating package.json.");
-      });
-
-      console.log("Creating index.js...");
-      fs.writeFile(`${dir}/index.js`, _fetchScript(token, dir), err => {
-        if (err) return console.error("Error while creating index.js.");
-      });
-
-      console.log("Installing dependencies...");
-      child_process.exec(`cd ${dir} && npm install`, (err, stdout, stderr) => {
-        if (err) throw err;
-        console.log("Finalizing... Done!");
-      });
-    }
-  });
 }
