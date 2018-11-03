@@ -1,4 +1,4 @@
-exports.Package_JSON = require('../../package.json');
+exports.Package = require('../../package.json');
 
 exports.Errors = {
     // Client Errors

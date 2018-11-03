@@ -6,7 +6,7 @@ const inquirer = require("inquirer");
 const Constants = require("../util/Constants");
 
 commander
-  .version(`${Constants.Package_JSON.version}`, "-v, --version")
+  .version(`v${Constants.Package.version}`, "-v, --version")
   .option("-d, --default, Return default options.")
   .option("-a, --author, Add the author.")
   .parse(process.argv);

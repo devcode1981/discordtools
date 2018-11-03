@@ -21,8 +21,8 @@ class UAManager {
 }
 
 UAManager.DEFAULT = {
-    url: Constants.Package_JSON.homepage.split('#')[0],
-    version: Constants.Package_JSON.version,
+    url: Constants.Package.homepage.split('#')[0],
+    version: Constants.Package.version,
 };
 
 module.exports = UAManager;
