@@ -10,8 +10,8 @@ exports.Errors = {
     UNKNOWN_RATE_LIMIT_METHOD: 'Unknown rate limit method.',
 
     // Database Errors
-    UNKNOWN_METHOD: 'Unknown method is supplied',
-    INVALID_METHOD: 'Invalid method is supplied.',
+    UNKNOWN_METHOD: 'Unknown method was supplied',
+    INVALID_METHOD: 'Invalid method was supplied.',
 
     /**
      * @param {string} missing
