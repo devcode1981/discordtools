@@ -2,8 +2,6 @@
 
 ### Installation
 
-**Node.js 6.0.0 or newer is required.**
-
 ```
 $ npm i discordtools
 ```
@@ -13,7 +11,7 @@ Install discordtools globally if you're using discordtools CLI.
 {% endhint %}
 
 ```text
-$ npm i -g discordtools
+$ npm i -g discordtools [--default|--author]
 ```
 
 Run `discordtools` inside the terminal to run discordtools CLI.
