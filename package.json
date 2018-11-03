@@ -10,14 +10,12 @@
   },
   "keywords": [
     "discord",
-    "discordapp",
     "bot",
-    "api",
+    "discord-api",
     "node",
     "database",
     "cli",
-    "discord.js",
-    "wrapper"
+    "discord.js"
   ],
   "author": "boltx <bolt8bp@gmail.com>",
   "runkitExampleFilename": "./docs/examples/addRole.js",
