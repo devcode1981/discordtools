@@ -39,5 +39,7 @@
     "inquirer": "^6.2.0",
     "snekfetch": "^4.0.4"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jsdoc": "^3.5.5"
+  }
 }
