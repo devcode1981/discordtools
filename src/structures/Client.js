@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const APIManager = require('../api/APIManager');
+const APIManager = require('../rest/APIManager');
 const Constants = require('../util/Constants');
 const Util = require('../util/Util');
 class Client {
