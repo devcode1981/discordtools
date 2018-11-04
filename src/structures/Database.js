@@ -14,9 +14,10 @@ class Database {
      * @type {DatabaseOptions} Database options.
      */
     this.options = Utility.combineDefault(Constants.DatabaseOptions, options);
-
-    if (options.dbName) dbname = options.dbName;
     dbname = 'dtdb.json';
+    if (options.dbName) {
+      dbname = options.dbName;
+    }
     if (!fs.existsSync(path.resolve(dbname))) fs.writeFileSync(dbname, '{}');
     this.filePath = path.resolve(dbname);
     this.db = require(this.filePath);
