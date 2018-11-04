@@ -15,7 +15,8 @@ class Database {
      */
     this.options = Utility.combineDefault(Constants.DatabaseOptions, options);
 
-    const dbname = 'dtdb.json';
+    if (options.dbName) dbname = options.dbName;
+    dbname = 'dtdb.json';
     if (!fs.existsSync(path.resolve(dbname))) fs.writeFileSync(dbname, '{}');
     this.filePath = path.resolve(dbname);
     this.db = require(this.filePath);

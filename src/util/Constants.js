@@ -57,6 +57,41 @@ exports.DatabaseOptions = {
     name: 'dtdb.json',
 };
 
+exports.BuiltInModules = [
+    'assert',
+    'buffer',
+    'child_process',
+    'cluster',
+    'console',
+    'constants',
+    'crypto',
+    'dgram',
+    'dns',
+    'domain',
+    'events',
+    'fs',
+    'http',
+    'https',
+    'module',
+    'net',
+    'os',
+    'path',
+    'punycode',
+    'querystring',
+    'readline',
+    'repl',
+    'stream',
+    'string_decoder',
+    'sys',
+    'timers',
+    'tls',
+    'tty',
+    'url',
+    'util',
+    'vm',
+    'zlib'
+];
+
 exports.ChannelTypes = {
     TEXT: 0,
     DM: 1,
@@ -74,99 +109,99 @@ exports.ActivityTypes = [
     'STREAMING',
     'LISTENING',
     'WATCHING',
-  ];
+];
 
 const Endpoints = exports.Endpoints = {
-    guilds: '/guilds',
-    Guild: (guildID) => {
-        if (guildID.id) guildID = guildID.id;
-        const base = `/guilds/${guildID}`;
-        return {
-            toString: () => base,
-            prune: `${base}/prune`,
-            embed: `${base}/embed`,
-            bans: `${base}/bans`,
-            integrations: `${base}/integrations`,
-            members: `${base}/members`,
-            channels: `${base}/channels`,
-            invites: `${base}/invites`,
-            roles: `${base}/roles`,
-            emojis: `${base}/emojis`,
-            search: `${base}/messages/search`,
-            voiceRegions: `${base}/regions`,
-            webhooks: `${base}/webhooks`,
-            ack: `${base}/ack`,
-            settings: `${base}/settings`,
-            auditLogs: `${base}/audit-logs`,
-            Emoji: (emojiID) => `${base}/emojis/${emojiID}`,
-            Icon: (root, hash) => Endpoints.CDN(root).Icon(guildID, hash),
-            Splash: (root, hash) => Endpoints.CDN(root).Splash(guildID, hash),
-            Role: (roleID) => `${base}/roles/${roleID}`,
-            Member: (memberID) => {
-                if (memberID.id) memberID = memberID.id;
-                const mbase = `${base}/members/${memberID}`;
+        guilds: '/guilds',
+        Guild: (guildID) => {
+            if (guildID.id) guildID = guildID.id;
+            const base = `/guilds/${guildID}`;
+            return {
+                toString: () => base,
+                prune: `${base}/prune`,
+                embed: `${base}/embed`,
+                bans: `${base}/bans`,
+                integrations: `${base}/integrations`,
+                members: `${base}/members`,
+                channels: `${base}/channels`,
+                invites: `${base}/invites`,
+                roles: `${base}/roles`,
+                emojis: `${base}/emojis`,
+                search: `${base}/messages/search`,
+                voiceRegions: `${base}/regions`,
+                webhooks: `${base}/webhooks`,
+                ack: `${base}/ack`,
+                settings: `${base}/settings`,
+                auditLogs: `${base}/audit-logs`,
+                Emoji: (emojiID) => `${base}/emojis/${emojiID}`,
+                Icon: (root, hash) => Endpoints.CDN(root).Icon(guildID, hash),
+                Splash: (root, hash) => Endpoints.CDN(root).Splash(guildID, hash),
+                Role: (roleID) => `${base}/roles/${roleID}`,
+                Member: (memberID) => {
+                    if (memberID.id) memberID = memberID.id;
+                    const mbase = `${base}/members/${memberID}`;
+                    return {
+                        toString: () => mbase,
+                        Role: roleID => `${mbase}/roles/${roleID}`,
+                        nickname: `${base}/members/@me/nick`,
+                    };
+                },
+            };
+        },
+        channels: '/channels',
+        Channel: (channelID) => {
+            if (channelID.id) channelID = channelID.id;
+            const base = `/channels/${channelID}`;
+            return {
+                toString: () => base,
+                messages: {
+                    toString: () => `${base}/messages`,
+                    bulkDelete: `${base}/messages/bulk-delete`,
+                },
+                invites: `${base}/invites`,
+                typing: `${base}/typing`,
+                permissions: `${base}/permissions`,
+                webhooks: `${base}/webhooks`,
+                search: `${base}/messages/search`,
+                pins: `${base}/pins`,
+                Icon: (root, hash) => Endpoints.CDN(root).GDMIcon(channelID, hash),
+                Pin: (messageID) => `${base}/pins/${messageID}`,
+                Recipient: (recipientID) => `${base}/recipients/${recipientID}`,
+                Message: (messageID) => {
+                    if (messageID.id) messageID = messageID.id;
+                    const mbase = `${base}/messages/${messageID}`;
+                    return {
+                        toString: () => mbase,
+                        reactions: `${mbase}/reactions`,
+                        ack: `${mbase}/ack`,
+                        Reaction: (emoji) => {
+                            const rbase = `${mbase}/reactions/${emoji}`;
+                            return {
+                                toString: () => rbase,
+                                User: userID => `${rbase}/${userID}`,
+                            };
+                        },
+                    };
+                },
+            };
+        },
+        User: (userID) => {
+                if (userID.id) userID = userID.id;
+                const base = `/users/${userID}`;
                 return {
-                    toString: () => mbase,
-                    Role: roleID => `${mbase}/roles/${roleID}`,
-                    nickname: `${base}/members/@me/nick`,
-                };
-            },
-        };
-    },
-    channels: '/channels',
-    Channel: (channelID) => {
-        if (channelID.id) channelID = channelID.id;
-        const base = `/channels/${channelID}`;
-        return {
-            toString: () => base,
-            messages: {
-                toString: () => `${base}/messages`,
-                bulkDelete: `${base}/messages/bulk-delete`,
-            },
-            invites: `${base}/invites`,
-            typing: `${base}/typing`,
-            permissions: `${base}/permissions`,
-            webhooks: `${base}/webhooks`,
-            search: `${base}/messages/search`,
-            pins: `${base}/pins`,
-            Icon: (root, hash) => Endpoints.CDN(root).GDMIcon(channelID, hash),
-            Pin: (messageID) => `${base}/pins/${messageID}`,
-            Recipient: (recipientID) => `${base}/recipients/${recipientID}`,
-            Message: (messageID) => {
-                if (messageID.id) messageID = messageID.id;
-                const mbase = `${base}/messages/${messageID}`;
-                return {
-                    toString: () => mbase,
-                    reactions: `${mbase}/reactions`,
-                    ack: `${mbase}/ack`,
-                    Reaction: (emoji) => {
-                        const rbase = `${mbase}/reactions/${emoji}`;
-                        return {
-                            toString: () => rbase,
-                            User: userID => `${rbase}/${userID}`,
-                        };
-                    },
-                };
-            },
-        };
-    },
-    User: (userID) => {
-        if (userID.id) userID = userID.id;
-        const base = `/users/${userID}`;
-        return {
-            toString: () => base,
-            channels: `${base}/channels`,
-            profile: `${base}/profile`,
-            relationships: `${base}/relationships`,
-            settings: `${base}/settings`,
-            Relationship: uID => `${base}/relationships/${uID}`,
-            Guild: guildID => ({
-                toString: () => `${base}/guilds/${guildID}`,
-                settings: `${base}/guilds/${guildID}/settings`,
-            }),
-            Note: id => `${base}/notes/${id}`,
-            Mentions: (limit, roles, everyone, guildID) =>
-                `${base}/mentions?limit=${limit}&roles=${roles}&everyone=${everyone}${guildID ? `&guild_id=${guildID}` : ''}`,
+                    toString: () => base,
+                    channels: `${base}/channels`,
+                    profile: `${base}/profile`,
+                    relationships: `${base}/relationships`,
+                    settings: `${base}/settings`,
+                    Relationship: uID => `${base}/relationships/${uID}`,
+                    Guild: guildID => ({
+                        toString: () => `${base}/guilds/${guildID}`,
+                        settings: `${base}/guilds/${guildID}/settings`,
+                    }),
+                    Note: id => `${base}/notes/${id}`,
+                    Mentions: (limit, roles, everyone, guildID) =>
+                        `${base}/mentions?limit=${limit}&roles=${roles}&everyone=${everyone}${guildID ? `&guild_id=${guildID}` : ''}`,
             Avatar: (root, hash) => {
                 if (userID === '1') return hash;
                 return Endpoints.CDN(root).Avatar(userID, hash);
