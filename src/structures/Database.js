@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const Utility = require('../util/Util');
+const Util = require('../util/Util');
 const Constants = require('../util/Constants');
 
 class Database {
+
   /**
    * @param {DatabaseOptions} [options] Database options.
    */
@@ -13,14 +14,55 @@ class Database {
      * Database options.
      * @type {DatabaseOptions} Database options.
      */
-    this.options = Utility.combineDefault(Constants.DatabaseOptions, options);
-    dbname = 'dtdb.json';
-    if (options.dbName) {
-      dbname = options.dbName;
-    }
+    this.options = Util.combineDefault(Constants.DatabaseOptions, options);
+    var dbname;
+    if (options.dbName) dbname = options.dbName;
+    else if (options.dbName) dbname = 'dtdb.json';
+    if (options.filePath && fs.existsSync(path.resolve(dbname))) fs.writeFileSync(path.resolve(dbname), '{ }');
     if (!fs.existsSync(path.resolve(dbname))) fs.writeFileSync(dbname, '{}');
-    this.filePath = path.resolve(dbname);
+    this.dbPath = path.resolve(dbname);
     this.db = require(this.filePath);
+  }
+
+  /**
+   * Add a number to a value.
+   * @param {string} key
+   * @param {number} data
+   */
+  add(key, data) {
+    let fetched = this._clone(this.db[key] + data);
+    this.db[key] = this._clone(fetched);
+    this.save();
+  }
+
+  /**
+   * Delete a key.
+   * @param {string} key
+   */
+  delete(key) {
+    delete this.db[key];
+    this.save();
+  }
+
+  /**
+   * @returns {Promise}
+   */
+  deleteAll() {
+    for (let key in this.db) {
+      this.delete(key);
+      this.save();
+    }
+    return Promise.resolve(this.db);
+  }
+
+  /**
+   * Edit a value.
+   * @param {string} key
+   * @param {string|boolean|object|number} value
+   */
+  edit(key, value) {
+    this.db[key] = this._clone(value);
+    this.save();
   }
 
   /**
@@ -47,25 +89,19 @@ class Database {
     switch (method) {
       case 'array':
         {
-          let keyArr = [];
-          key.forEach(element => {
-            return keyArr.push(element)
+          let keyArray = [];
+          key.forEach((element) => {
+            return keyArray.push(element)
           });
-          keyArr.forEach((keyElement) => {
-            if (this.db.hasOwnProperty(keyElement)) {
-              return console.log(keyElement + ': ' + true);
-            } else {
-              return console.log(keyElement + ': ' + false);
-            }
+          keyArray.forEach((keyElement) => {
+            if (this.db.hasOwnProperty(keyElement)) console.log(keyElement + ': ' + true);
+            else console.log(keyElement + ': ' + false);
           });
         }
       case 'string':
         {
-          if (this.db.hasOwnProperty(key)) {
-            console.log(true);
-          } else if (!this.db.hasOwnProperty(key)) {
-            console.log(false);
-          }
+          if (this.db.hasOwnProperty(key)) console.log(true);
+          else if (!this.db.hasOwnProperty(key)) console.log(false);
         }
       default:
         {
@@ -85,15 +121,13 @@ class Database {
   }
 
   /**
-   * Add a number to a value.
    * @param {string} key
-   * @param {number} data
+   * @param {string} data
    */
-  add(key, data) {
-    options = {};
-    let fetched = this._clone(this.db[key] + data);
-    this.db[key] = this._clone(fetched);
-    this.save();
+  startsWith(key, data) {
+    if (data === undefined) return undefined;
+    if (this.db[key].startsWith(data)) return console.log(true);
+    else console.log(false);
   }
 
   /**
@@ -102,51 +136,9 @@ class Database {
    * @param {number} data
    */
   subtract(key, data) {
-    options = {};
     let fetched = this._clone(this.db[key] - data);
     this.db[key] = this._clone(fetched);
     this.save();
-  }
-
-  /**
-   * Edit a value.
-   * @param {string} key
-   * @param {string|boolean|object|number} value
-   */
-  edit(key, value) {
-    this.db[key] = this._clone(value);
-    this.save();
-  }
-
-  /**
-   * Delete a key.
-   * @param {string} key
-   */
-  delete(key) {
-    delete this.db[key];
-    this.save();
-  }
-
-
-  /**
-   * @returns {Promise}
-   */
-  deleteAll() {
-    for (let key in this.db) {
-      this.delete(key);
-      this.save();
-    }
-    return Promise.resolve(this.db);
-  }
-
-  /**
-   * @param {string} key
-   * @param {string} data
-   */
-  startsWith(key, data) {
-    if (data === undefined) return undefined;
-    if (this.db[key].startsWith(data)) return console.log(true);
-    else console.log(false);
   }
 
   /**

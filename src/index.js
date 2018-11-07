@@ -1,8 +1,8 @@
 module.exports = {
-  // Utilities
-  Util: require('./util/Util'),
-  Constants: require('./util/Constants'),
+  // Util
   APIError: require('./rest/APIError'),
+  Constants: require('./util/Constants'),
+  Util: require('./util/Util'),
   Version: require('../package.json').version,
 
   // Structures

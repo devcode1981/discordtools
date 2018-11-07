@@ -25,12 +25,14 @@ exports.Errors = {
 /**
  * @typedef {Object} ClientOptions Client options.
  * @property {string} [apiRequestMethod='sequential'] API request method.
+ * @property {string} [prefix=''] Commands prefix.
  * @property {boolean} [userAccount=false] User account.
  * @property {number} [restTimeOffset=500] Rest time offset.
  * @property {HTTPOptions} [http] HTTP options.
  */
 exports.DefaultOptions = {
     apiRequestMethod: 'sequential',
+    prefix: '',
     userAccount: false,
     restTimeOffset: 500,
 
@@ -51,10 +53,12 @@ exports.DefaultOptions = {
 
 /**
  * @typedef {Object} DatabaseOptions Database options.
- * @property {boolean} [name='dtdb.json']
+ * @property {string} [name='dtdb.json']
+ * @property {string} [dbPath='./']
  */
 exports.DatabaseOptions = {
-    name: 'dtdb.json',
+    dbName: 'dtdb.json',
+    dbPath: './'
 };
 
 exports.BuiltInModules = [
