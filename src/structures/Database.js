@@ -21,7 +21,7 @@ class Database {
     if (options.filePath && fs.existsSync(path.resolve(dbname))) fs.writeFileSync(path.resolve(dbname), '{ }');
     if (!fs.existsSync(path.resolve(dbname))) fs.writeFileSync(dbname, '{}');
     this.dbPath = path.resolve(dbname);
-    this.db = require(this.filePath);
+    this.db = require(this.dbPath);
   }
 
   /**
@@ -111,7 +111,7 @@ class Database {
   }
 
   /**
-   * Set a database key and value.
+   * Sets an element with specified key and value.
    * @param {string} key
    * @param {string|number|boolean|object} value
    */
@@ -145,7 +145,7 @@ class Database {
    * @param {string} path
    */
   save(path) {
-    if (!path) path = this.filePath;
+    if (!path) path = this.dbPath;
     fs.writeFileSync(path, JSON.stringify(this.db));
   }
 
