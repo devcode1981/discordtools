@@ -51,16 +51,6 @@ exports.DefaultOptions = {
     },
 };
 
-/**
- * @typedef {Object} DatabaseOptions Database options.
- * @property {string} [name='dtdb.json']
- * @property {string} [dbPath='./']
- */
-exports.DatabaseOptions = {
-    dbName: 'dtdb.json',
-    dbPath: './'
-};
-
 exports.BuiltInModules = [
     'assert',
     'buffer',

@@ -1,24 +1,16 @@
 const fs = require('fs');
 const path = require('path');
-const Util = require('../util/Util');
 const Constants = require('../util/Constants');
 
 class Database {
 
   /**
-   * @param {DatabaseOptions} [options] Database options.
+   * @param {string} [dbName]
    */
-  constructor(options = {}) {
-
-    /**
-     * Database options.
-     * @type {DatabaseOptions} Database options.
-     */
-    this.options = Util.combineDefault(Constants.DatabaseOptions, options);
-    var dbname;
-    if (options.dbName) dbname = options.dbName;
-    else if (options.dbName) dbname = 'dtdb.json';
-    if (options.filePath && fs.existsSync(path.resolve(dbname))) fs.writeFileSync(path.resolve(dbname), '{ }');
+  constructor(dbName) {
+    let dbname;
+    if (dbName) dbname = `${dbName}.json`;
+    else dbname = 'dtdb';
     if (!fs.existsSync(path.resolve(dbname))) fs.writeFileSync(dbname, '{}');
     this.dbPath = path.resolve(dbname);
     this.db = require(this.dbPath);
@@ -36,7 +28,7 @@ class Database {
   }
 
   /**
-   * Delete a key.
+   * Deletes a specified key from the database.
    * @param {string} key
    */
   delete(key) {
@@ -66,47 +58,46 @@ class Database {
   }
 
   /**
-   * Fetch a database key.
+   * Gets a specified element from the database.
    * @param {string} key
    */
-  fetch(key) {
+  get(key) {
+    if (!this.db[key]) return undefined;
     return this._clone(this.db[key]);
   }
 
   /**
+   * Gets all elements from the database.
    * @returns {Promise}
    */
-  fetchAll() {
+  getAll() {
     return Promise.resolve(this._clone(this.db));
   }
 
   /**
-   * Whether or not, the database has a key or not.
+   * Returns a boolean indicating whether an element with the specified key exists or not.
    * @param {string|Array} key
-   * @param {string} [method]
+   * @param {string} [method='string']
+   * @returns {boolean}
    */
   has(key, method = 'string') {
-    switch (method) {
-      case 'array':
-        {
-          let keyArray = [];
-          key.forEach((element) => {
-            return keyArray.push(element)
-          });
-          keyArray.forEach((keyElement) => {
-            if (this.db.hasOwnProperty(keyElement)) console.log(keyElement + ': ' + true);
-            else console.log(keyElement + ': ' + false);
-          });
+    if (method === 'array') {
+      let keyArray = [];
+      key.forEach((element) => keyArray.push(element));
+      keyArray.forEach((keyElement) => {
+        if (this.db.hasOwnProperty(keyElement)) {
+          return console.log(keyElement + ': ' + true);
+        } else {
+          return console.log(keyElement + ': ' + false);
         }
-      case 'string':
-        {
-          if (this.db.hasOwnProperty(key)) console.log(true);
-          else if (!this.db.hasOwnProperty(key)) console.log(false);
-        }
-      default:
-        {
-          throw new Error(Constants.Errors.UNKNOWN_METHOD);
-        }
+      });
+    }
+    if (method === 'string') {
+      if (this.db.hasOwnProperty(key)) {
+        return console.log(true);
+      } else if (!this.db.hasOwnProperty(key)) {
+        return console.log(false);
+      }
     }
   }
 
