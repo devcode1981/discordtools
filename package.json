@@ -32,9 +32,9 @@
   },
   "homepage": "https://github.com/boltxyz/discordtools/#readme",
   "dependencies": {
-    "commander": "^2.19.0",
+    "commander": "^4.1.0",
     "discord.js": "^11.3.2",
-    "inquirer": "^6.2.0",
+    "inquirer": "^7.0.4",
     "snekfetch": "^4.0.4"
   },
   "devDependencies": {}
