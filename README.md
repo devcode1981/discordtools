@@ -1,5 +1,7 @@
 # Discord Tools
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/devcode1981/discordtools.svg)](https://greenkeeper.io/)
+
 ### About
 
 Discord Tools is a powerful, productive, efficient, easy-to-use [Node.js](https://nodejs.org/) module that allows you to interact with [Discord API](https://discordapp.com/developers/docs/).
